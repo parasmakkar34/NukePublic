@@ -1,10 +1,10 @@
 Group {
- name VectorMorph
+ name VectorMorph2
  tile_color 0x1f00ffff
  gl_color 0xff
  selected true
- xpos 847
- ypos -63
+ xpos 779
+ ypos -76
  addUserKnob {20 User}
  addUserKnob {26 info l "" +STARTLINE T "VectorMorph by Mads Hagbarth Lund 2016\nThis tool will morph between first and last selected frame.\nRequires NukeX"}
  addUserKnob {26 ""}
@@ -12,11 +12,10 @@ Group {
  FirstFrame 3560
  addUserKnob {3 LastFrame}
  LastFrame 3566
- addUserKnob {7 Dissolve}
- addUserKnob {6 AutoDissolve l "Auto Dissolve" +STARTLINE}
+ addUserKnob {7 Dissolve t "This will only be available if the AutoDissolve is off."}
+ addUserKnob {6 AutoDissolve l "Auto Dissolve" t "This clip will automatically dissolve between the two frames. (no need to animate the dissolve slider)" +STARTLINE}
  AutoDissolve true
- addUserKnob {6 LimitRange l "Limit Range" +STARTLINE}
- LimitRange true
+ addUserKnob {6 LimitRange l "Limit Range" t "The effect will only be applied between the 2 frames. Outside this range the clip will act as normal." +STARTLINE}
  addUserKnob {26 info_advanced l Advanced}
  addUserKnob {41 vectorDetailReg l "Vector Detail" T VectorGenerator1.vectorDetailReg}
  addUserKnob {26 ""}
@@ -29,7 +28,7 @@ Group {
   xpos 427
   ypos 338
  }
-set N251586e0 [stack 0]
+set Na036ef0 [stack 0]
  Dot {
   name Dot6
   xpos 43
@@ -47,7 +46,7 @@ set N251586e0 [stack 0]
   ypos 1106
   number 1
  }
-push $N251586e0
+push $Na036ef0
  Shuffle {
   alpha white
   name Shuffle1
@@ -55,13 +54,13 @@ push $N251586e0
   xpos 427
   ypos 420
  }
-set Na04bfe0 [stack 0]
+set Nc841c90 [stack 0]
  Dot {
   name Dot31
   xpos 461
   ypos 549
  }
-set Nebebee0 [stack 0]
+set N365bdbc0 [stack 0]
  Group {
   name FrameHold7
   tile_color 0xb0a45dff
@@ -101,8 +100,8 @@ set Nebebee0 [stack 0]
   xpos 505
   ypos 632
  }
-set N135fc780 [stack 0]
-push $Nebebee0
+set Na0838d0 [stack 0]
+push $N365bdbc0
  Group {
   name FrameHold6
   tile_color 0xb0a45dff
@@ -134,7 +133,7 @@ push $Nebebee0
    ypos -14
   }
  end_group
-set Nc8cc690 [stack 0]
+set N2516ecb0 [stack 0]
  FrameRange {
   first_frame {{parent.FirstFrame}}
   last_frame {{parent.FirstFrame}}
@@ -165,8 +164,8 @@ set Nc8cc690 [stack 0]
   xpos 407
   ypos 716
  }
-set N938c5a0 [stack 0]
-push $N135fc780
+set N135b95e0 [stack 0]
+push $Na0838d0
  Dot {
   name Dot34
   xpos 539
@@ -216,7 +215,7 @@ push $N135fc780
    ypos -14
   }
  end_group
-set Na0b1490 [stack 0]
+set Na062870 [stack 0]
  IDistort {
   uv motion
   uv_scale {{1+(parent.IDistort4.uv_scale)}}
@@ -224,8 +223,8 @@ set Na0b1490 [stack 0]
   xpos 693
   ypos 827
  }
-push $N938c5a0
-push $Nc8cc690
+push $N135b95e0
+push $N2516ecb0
  Dot {
   name Dot33
   xpos 283
@@ -280,7 +279,7 @@ push $Nc8cc690
    ypos -14
   }
  end_group
-set N96fcc80 [stack 0]
+set N24d01070 [stack 0]
  IDistort {
   uv motion
   uv_scale {{-parent.Dissolve2.which}}
@@ -300,7 +299,7 @@ set N96fcc80 [stack 0]
   xpos 685
   ypos 973
  }
-push $Na0b1490
+push $Na062870
  IDistort {
   uv motion
   uv_scale {{1+(parent.IDistort1.uv_scale)}}
@@ -308,7 +307,7 @@ push $Na0b1490
   xpos 449
   ypos 833
  }
-push $N96fcc80
+push $N24d01070
  IDistort {
   uv motion
   uv_scale {{-parent.Dissolve1.which}}
@@ -330,8 +329,8 @@ push $N96fcc80
   xpos 402
   ypos 969
  }
-set Nebe38d0 [stack 0]
-push $Na04bfe0
+set N36483e60 [stack 0]
+push $Nc841c90
  Dot {
   name Dot2
   xpos 192
@@ -342,7 +341,7 @@ push $Na04bfe0
   xpos 199
   ypos 1008
  }
-set N7189040 [stack 0]
+set N36490c00 [stack 0]
  Switch {
   inputs 2
   which {{(frame-parent.FirstFrame)/(parent.LastFrame-parent.FirstFrame)>1?0:(frame-parent.FirstFrame)/(parent.LastFrame-parent.FirstFrame)<0?0:1}}
@@ -350,7 +349,7 @@ set N7189040 [stack 0]
   xpos 323
   ypos 1004
  }
-push $Nebe38d0
+push $N36483e60
  Switch {
   inputs 2
   which {{parent.LimitRange}}
@@ -358,7 +357,7 @@ push $Nebe38d0
   xpos 402
   ypos 1057
  }
-push $N7189040
+push $N36490c00
  Dot {
   name Dot1
   xpos 199
