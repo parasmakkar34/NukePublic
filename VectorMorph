@@ -3,8 +3,8 @@ Group {
  tile_color 0x1f00ffff
  gl_color 0xff
  selected true
- xpos 916
- ypos -83
+ xpos 847
+ ypos -63
  addUserKnob {20 User}
  addUserKnob {26 info l "" +STARTLINE T "VectorMorph by Mads Hagbarth Lund 2016\nThis tool will morph between first and last selected frame.\nRequires NukeX"}
  addUserKnob {26 ""}
@@ -25,25 +25,37 @@ Group {
 }
  Input {
   inputs 0
+  name Input1
+  xpos 427
+  ypos 338
+ }
+set N251586e0 [stack 0]
+ Dot {
+  name Dot6
+  xpos 43
+  ypos 342
+ }
+ Dot {
+  name Dot5
+  xpos 43
+  ypos 1169
+ }
+ Input {
+  inputs 0
   name InputMask
   xpos 747
   ypos 1106
   number 1
  }
- Input {
-  inputs 0
-  name Input1
-  xpos 427
-  ypos 426
- }
-set N251586e0 [stack 0]
+push $N251586e0
  Shuffle {
   alpha white
   name Shuffle1
   label "\[python nuke.thisNode().knob('in').value()] >> \[python nuke.thisNode().knob('out').value()]"
   xpos 427
-  ypos 473
+  ypos 420
  }
+set Na04bfe0 [stack 0]
  Dot {
   name Dot31
   xpos 461
@@ -319,7 +331,7 @@ push $N96fcc80
   ypos 969
  }
 set Nebe38d0 [stack 0]
-push $N251586e0
+push $Na04bfe0
  Dot {
   name Dot2
   xpos 192
@@ -358,6 +370,13 @@ push $N7189040
   name Merge1
   xpos 402
   ypos 1108
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy1
+  label "\[python nuke.thisNode().knob('in').value()] >> \[python nuke.thisNode().knob('out').value()]"
+  xpos 402
+  ypos 1159
  }
  Output {
   name Output1
