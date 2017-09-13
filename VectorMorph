@@ -1,0 +1,361 @@
+Group {
+ name VectorMorph
+ tile_color 0x1f00ffff
+ gl_color 0xff
+ selected true
+ xpos 760
+ ypos -65
+ addUserKnob {20 User}
+ addUserKnob {26 info l "" +STARTLINE T "VectorMorph by Mads Hagbarth Lund 2016\nThis tool will morph between first and last selected frame.\nRequires NukeX"}
+ addUserKnob {26 ""}
+ addUserKnob {3 FirstFrame}
+ FirstFrame 115
+ addUserKnob {3 LastFrame}
+ LastFrame 126
+ addUserKnob {7 Dissolve}
+ addUserKnob {6 AutoDissolve l "Auto Dissolve" +STARTLINE}
+ AutoDissolve true
+ addUserKnob {6 LimitRange l "Limit Range" +STARTLINE}
+ LimitRange true
+ addUserKnob {26 info_advanced l Advanced}
+ addUserKnob {41 vectorDetailReg l "Vector Detail" T VectorGenerator1.vectorDetailReg}
+ addUserKnob {26 ""}
+ addUserKnob {7 Mix}
+ Mix 1
+}
+ Input {
+  inputs 0
+  name InputMask
+  xpos 747
+  ypos 1106
+  number 1
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 427
+  ypos 426
+ }
+set N8666670 [stack 0]
+ Dot {
+  name Dot31
+  xpos 461
+  ypos 549
+ }
+set N86d0400 [stack 0]
+ Group {
+  name FrameHold7
+  tile_color 0xb0a45dff
+  label "(frame \[value first_frames])"
+  xpos 505
+  ypos 594
+  addUserKnob {20 User}
+  addUserKnob {3 first_frames l "first frame"}
+  first_frames {{parent.LastFrame}}
+  addUserKnob {41 increment T FrameHold2.increment}
+  addUserKnob {22 SetCurrentFrame l "Set This Frame" T "nuke.thisNode()\[\"first_frames\"].setValue(nuke.frame())" +STARTLINE}
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -7
+   ypos -154
+  }
+  FrameHold {
+   first_frame {{parent.knob.first_frames}}
+   name FrameHold2
+   selected true
+   xpos -7
+   ypos -114
+  }
+  Output {
+   name Output1
+   xpos -7
+   ypos -14
+  }
+ end_group
+ FrameRange {
+  first_frame {{parent.LastFrame}}
+  last_frame {{parent.LastFrame}}
+  time ""
+  name FrameRange2
+  xpos 505
+  ypos 632
+ }
+set N867eca0 [stack 0]
+push $N86d0400
+ Group {
+  name FrameHold6
+  tile_color 0xb0a45dff
+  label "(frame \[value first_frames])"
+  xpos 351
+  ypos 591
+  addUserKnob {20 User}
+  addUserKnob {3 first_frames l "first frame"}
+  first_frames {{parent.FirstFrame}}
+  addUserKnob {41 increment T FrameHold2.increment}
+  addUserKnob {22 SetCurrentFrame l "Set This Frame" T "nuke.thisNode()\[\"first_frames\"].setValue(nuke.frame())" +STARTLINE}
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -7
+   ypos -154
+  }
+  FrameHold {
+   first_frame {{parent.knob.first_frames}}
+   name FrameHold2
+   selected true
+   xpos -7
+   ypos -114
+  }
+  Output {
+   name Output1
+   xpos -7
+   ypos -14
+  }
+ end_group
+set N8a0f790 [stack 0]
+ FrameRange {
+  first_frame {{parent.FirstFrame}}
+  last_frame {{parent.FirstFrame}}
+  time ""
+  name FrameRange1
+  xpos 351
+  ypos 629
+ }
+ AppendClip {
+  inputs 2
+  meta_from_first false
+  time ""
+  name AppendClip1
+  xpos 407
+  ypos 690
+ }
+ VectorGenerator {
+  motionEstimation Regularized
+  vectorDetailLocal 1
+  smoothnessLocal 1
+  vectorDetailReg 1
+  Advanced 1
+  Tolerances 1
+  weightRed 1
+  weightGreen 0.8
+  weightBlue 0.148
+  name VectorGenerator1
+  xpos 407
+  ypos 716
+ }
+set Nec0c2c0 [stack 0]
+push $N867eca0
+ Dot {
+  name Dot34
+  xpos 539
+  ypos 775
+ }
+ ShuffleCopy {
+  inputs 2
+  in motion
+  alpha alpha2
+  black red
+  white green
+  red2 blue
+  green2 alpha
+  out2 motion
+  name ShuffleCopy7
+  xpos 449
+  ypos 771
+ }
+ Group {
+  name FrameHold1
+  tile_color 0xb0a45dff
+  label "(frame \[value first_frames])"
+  xpos 449
+  ypos 797
+  addUserKnob {20 User}
+  addUserKnob {3 first_frames l "first frame"}
+  first_frames 1
+  addUserKnob {41 increment T FrameHold2.increment}
+  addUserKnob {22 SetCurrentFrame l "Set This Frame" T "nuke.thisNode()\[\"first_frames\"].setValue(nuke.frame())" +STARTLINE}
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -7
+   ypos -154
+  }
+  FrameHold {
+   first_frame {{parent.knob.first_frames}}
+   name FrameHold2
+   selected true
+   xpos -7
+   ypos -114
+  }
+  Output {
+   name Output1
+   xpos -7
+   ypos -14
+  }
+ end_group
+set Nc5b3720 [stack 0]
+ IDistort {
+  uv motion
+  uv_scale {{1+(parent.IDistort4.uv_scale)}}
+  name IDistort3
+  xpos 693
+  ypos 827
+ }
+push $Nec0c2c0
+push $N8a0f790
+ Dot {
+  name Dot33
+  xpos 283
+  ypos 601
+ }
+ Dot {
+  name Dot32
+  xpos 283
+  ypos 774
+ }
+ ShuffleCopy {
+  inputs 2
+  in motion
+  alpha alpha2
+  black red
+  white green
+  red2 blue
+  green2 alpha
+  out2 motion
+  name ShuffleCopy6
+  xpos 351
+  ypos 770
+ }
+ Group {
+  name FrameHold
+  tile_color 0xb0a45dff
+  label "(frame \[value first_frames])"
+  xpos 351
+  ypos 796
+  addUserKnob {20 User}
+  addUserKnob {3 first_frames l "first frame"}
+  first_frames 1
+  addUserKnob {41 increment T FrameHold2.increment}
+  addUserKnob {22 SetCurrentFrame l "Set This Frame" T "nuke.thisNode()\[\"first_frames\"].setValue(nuke.frame())" +STARTLINE}
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -7
+   ypos -154
+  }
+  FrameHold {
+   first_frame {{parent.knob.first_frames}}
+   name FrameHold2
+   selected true
+   xpos -7
+   ypos -114
+  }
+  Output {
+   name Output1
+   xpos -7
+   ypos -14
+  }
+ end_group
+set Nc5f1db0 [stack 0]
+ IDistort {
+  uv motion
+  uv_scale {{-parent.Dissolve2.which}}
+  name IDistort4
+  xpos 595
+  ypos 826
+ }
+ Dissolve {
+  inputs 2
+  which {{min(1,max(0,(frame-parent.FirstFrame)/(parent.LastFrame-parent.FirstFrame)))}}
+  name Dissolve2
+  xpos 651
+  ypos 873
+ }
+ Dot {
+  name Dot4
+  xpos 685
+  ypos 973
+ }
+push $Nc5b3720
+ IDistort {
+  uv motion
+  uv_scale {{1+(parent.IDistort1.uv_scale)}}
+  name IDistort2
+  xpos 449
+  ypos 833
+ }
+push $Nc5f1db0
+ IDistort {
+  uv motion
+  uv_scale {{-parent.Dissolve1.which}}
+  name IDistort1
+  xpos 351
+  ypos 832
+ }
+ Dissolve {
+  inputs 2
+  which {{parent.Dissolve}}
+  name Dissolve1
+  xpos 402
+  ypos 886
+ }
+ Switch {
+  inputs 2
+  which {{parent.AutoDissolve}}
+  name Switch1
+  xpos 402
+  ypos 969
+ }
+set N112a0500 [stack 0]
+push $N8666670
+ Dot {
+  name Dot2
+  xpos 192
+  ypos 430
+ }
+ Dot {
+  name Dot3
+  xpos 199
+  ypos 1008
+ }
+set N112acf50 [stack 0]
+ Switch {
+  inputs 2
+  which {{(frame-parent.FirstFrame)/(parent.LastFrame-parent.FirstFrame)>1?0:(frame-parent.FirstFrame)/(parent.LastFrame-parent.FirstFrame)<0?0:1}}
+  name Switch2
+  xpos 323
+  ypos 1004
+ }
+push $N112a0500
+ Switch {
+  inputs 2
+  which {{parent.LimitRange}}
+  name Switch3
+  xpos 402
+  ypos 1057
+ }
+push $N112acf50
+ Dot {
+  name Dot1
+  xpos 199
+  ypos 1112
+ }
+ Merge2 {
+  inputs 2+1
+  mix {{parent.Mix}}
+  name Merge1
+  selected true
+  xpos 402
+  ypos 1108
+ }
+ Output {
+  name Output1
+  xpos 402
+  ypos 1246
+ }
+end_group
