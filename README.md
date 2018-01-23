@@ -19,3 +19,7 @@ With the roto node and brush stroke(s) selected hit the desired menu item in the
 ![GitHub Logo](/Images/reducedCurve.jpg)
 
 
+## [VectorMorph](/VectorMorph)
+
+This nuke script contains a node that can be used to morph between 2 frames of a sequence using Kronos vectors.
+The node automatically morphs and resumes the normal sequence.
