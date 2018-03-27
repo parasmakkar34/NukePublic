@@ -1,0 +1,35 @@
+Group {
+name HSP
+selected true
+xpos 183
+ypos -128
+addUserKnob {20 User}
+addUserKnob {26 info l "" +STARTLINE T "RGB to HSP \nby Mads Hagbarth Damsbo 2017"}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {6 Reverse +STARTLINE}
+}
+Input {
+inputs 0
+name Input1
+xpos -313
+ypos -33
+}
+BlinkScript {
+recompileCount 1
+ProgramGroup 1
+KernelDescription "2 \"SaturationKernel\" iterate pixelWise e86687e18fa312f10b32e7e83c6fbd172f67521e86c24cb86ea243a902e578f7 2 \"src\" Read Point \"dst\" Write Point 1 \"reverse\" Bool 1 AA== 1 \"reverse\" 1 1 0"
+kernelSource "kernel SaturationKernel : ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessPoint, eEdgeClamped> src; // the input image\n  Image<eWrite> dst; // the output image\n\n  param:\n    bool reverse;\n\n  local:\n\n  void define() \{\n  \}\n\n  void init() \{\n  \}\n\n\nfloat4 RGBtoHSP(float4 _in) \{\n  // Don't ask...\n  float R=_in.x;\n  float G=_in.y;\n  float B=_in.z;\n  float H,S,P;\n  float Pr = 0.299f;\n  float Pg = 0.587f;\n  float Pb = 0.114f;\n  P=sqrt(R*R*Pr+G*G*Pg+B*B*Pb);\n    if      (R==G && R==B) \{\n        H=0.0f; S=0.0f; \n    \}\n    else \{\n      if      (R>=G && R>=B) \{   //  R is largest\n        if    (B>=G) \{\n          H=6./6.-1./6.*(B-G)/(R-G); S=1.-G/R; \}\n        else         \{\n          H=0./6.+1./6.*(G-B)/(R-B); S=1.-B/R; \}\}\n      else if (G>=R && G>=B) \{   //  G is largest\n        if    (R>=B) \{\n          H=2./6.-1./6.*(R-B)/(G-B); S=1.-B/G; \}\n        else         \{\n          H=2./6.+1./6.*(B-R)/(G-R); S=1.-R/G; \}\}\n      else                   \{   //  B is largest\n        if    (G>=R) \{\n          H=4./6.-1./6.*(G-R)/(B-R); S=1.-R/B; \}\n        else         \{\n          H=4./6.+1./6.*(R-G)/(B-G); S=1.-G/B; \}\}\}\n  return float4(H,S,P,_in.w);\n  \}\n\nfloat4 HSPtoRGB(float4 _in) \{\n  // Don't ask...\n  float H=_in.x;\n  float S=_in.y;\n  float P=_in.z;\n  float R,G,B;\n  float Pr = 0.299f;\n  float Pg = 0.587f;\n  float Pb = 0.114f;\n  float  part, minOverMax=1.-S ;\n\n  if (minOverMax>0.) \{\n    if      ( H<1./6.) \{   //  R>G>B\n      H= 6.*( H-0./6.); part=1.+H*(1./minOverMax-1.);\n      B=P/sqrt(Pr/minOverMax/minOverMax+Pg*part*part+Pb);\n      R=(B)/minOverMax; G=(B)+H*((R)-(B)); \}\n    else if ( H<2./6.) \{   //  G>R>B\n      H= 6.*(-H+2./6.); part=1.+H*(1./minOverMax-1.);\n      B=P/sqrt(Pg/minOverMax/minOverMax+Pr*part*part+Pb);\n      G=(B)/minOverMax; R=(B)+H*((G)-(B)); \}\n    else if ( H<3./6.) \{   //  G>B>R\n      H= 6.*( H-2./6.); part=1.+H*(1./minOverMax-1.);\n      R=P/sqrt(Pg/minOverMax/minOverMax+Pb*part*part+Pr);\n      G=(R)/minOverMax; B=(R)+H*((G)-(R)); \}\n    else if ( H<4./6.) \{   //  B>G>R\n      H= 6.*(-H+4./6.); part=1.+H*(1./minOverMax-1.);\n      R=P/sqrt(Pb/minOverMax/minOverMax+Pg*part*part+Pr);\n      B=(R)/minOverMax; G=(R)+H*((B)-(R)); \}\n    else if ( H<5./6.) \{   //  B>R>G\n      H= 6.*( H-4./6.); part=1.+H*(1./minOverMax-1.);\n      G=P/sqrt(Pb/minOverMax/minOverMax+Pr*part*part+Pg);\n      B=(G)/minOverMax; R=(G)+H*((B)-(G)); \}\n    else               \{   //  R>B>G\n      H= 6.*(-H+6./6.); part=1.+H*(1./minOverMax-1.);\n      G=P/sqrt(Pr/minOverMax/minOverMax+Pb*part*part+Pg);\n      R=(G)/minOverMax; B=(G)+H*((R)-(G)); \}\}\n  else \{\n    if      ( H<1./6.) \{   //  R>G>B\n      H= 6.*( H-0./6.); R=sqrt(P*P/(Pr+Pg*H*H)); G=(R)*H; B=0.; \}\n    else if ( H<2./6.) \{   //  G>R>B\n      H= 6.*(-H+2./6.); G=sqrt(P*P/(Pg+Pr*H*H)); R=(G)*H; B=0.; \}\n    else if ( H<3./6.) \{   //  G>B>R\n      H= 6.*( H-2./6.); G=sqrt(P*P/(Pg+Pb*H*H)); B=(G)*H; R=0.; \}\n    else if ( H<4./6.) \{   //  B>G>R\n      H= 6.*(-H+4./6.); B=sqrt(P*P/(Pb+Pg*H*H)); G=(B)*H; R=0.; \}\n    else if ( H<5./6.) \{   //  B>R>G\n      H= 6.*( H-4./6.); B=sqrt(P*P/(Pb+Pr*H*H)); R=(B)*H; G=0.; \}\n    else               \{   //  R>B>G\n      H= 6.*(-H+6./6.); R=sqrt(P*P/(Pr+Pb*H*H)); B=(R)*H; G=0.; \}\}\n  return float4(R,G,B,_in.w);\n  \}\n\n  void process() \{\n    float4 sample = src();\n    float4 output;\n    if (!reverse)\{\n        output = RGBtoHSP(sample);\n    \}\n    else\{\n        output = HSPtoRGB(sample);\n    \}\n\n    dst() = output;\n  \}\n\};\n"
+rebuild ""
+SaturationKernel_reverse {{parent.Reverse}}
+rebuild_finalise ""
+name BlinkScript1
+selected true
+xpos -313
+ypos 28
+}
+Output {
+name Output1
+xpos -313
+ypos 107
+}
+end_group
