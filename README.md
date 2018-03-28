@@ -5,7 +5,6 @@ Public Nuke Snippits created by Mads Hagbarth Damsbo.
 ## [RGB2HSP.nk](/RGB2HSP.nk)
 This is a node that can convert RGB into HSP and vice versa.
 HSP is a colorspace created by [Darel Rex Finley](http://alienryderflex.com/hsp.html), that work much like HSV and HSL with the exception that the luminance is visually percived brightness.
-And since nuke's HSL and HSV implementations are flawed it makes even more sense to use this =)
 
 
 ## [BrushReduction.py](/BrushReduction.py)
