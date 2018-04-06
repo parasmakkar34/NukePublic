@@ -10,7 +10,7 @@ addUserKnob {20 User}
 addUserKnob {6 EnableGPU l "Enable GPU?" +STARTLINE}
 EnableGPU true
 addUserKnob {14 Scale R 0 100}
-Scale {100 100}
+Scale 100
 addUserKnob {26 "" +STARTLINE}
 addUserKnob {3 Quality}
 Quality 15
