@@ -2,9 +2,6 @@
 Public Nuke Snippits created by Mads Hagbarth Damsbo.
 
 
-https://github.com/Malu05/NukePublic/blob/master/timelineHotkeys.py
-
-
 ## [timelineHotkeys.py](/timelineHotkeys.py)
 This is a basic version of the [View Manager](https://vimeo.com/299745801) that i created back in 2018. It adds a button to the viewer that let you set "hotkeys" for certain frame numbers, frame ranges, nodes, settings and such.
 
