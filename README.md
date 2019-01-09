@@ -2,6 +2,12 @@
 Public Nuke Snippits created by Mads Hagbarth Damsbo.
 
 
+https://github.com/Malu05/NukePublic/blob/master/timelineHotkeys.py
+
+
+## [timelineHotkeys.py](/timelineHotkeys.py)
+This is a basic version of the [View Manager](https://vimeo.com/299745801) that i created back in 2018. It adds a button to the viewer that let you set "hotkeys" for certain frame numbers, frame ranges, nodes, settings and such.
+
 ## [RGB2HSP.nk](/RGB2HSP.nk)
 This is a node that can convert RGB into HSP and vice versa.
 HSP is a colorspace created by [Darel Rex Finley](http://alienryderflex.com/hsp.html), that work much like HSV and HSL with the exception that the luminance is visually percived brightness.
@@ -28,3 +34,5 @@ With the roto node and brush stroke(s) selected hit the desired menu item in the
 
 This nuke script contains a node that can be used to morph between 2 frames of a sequence using Kronos vectors.
 The node automatically morphs and resumes the normal sequence.
+
+
