@@ -166,7 +166,7 @@ def find_viewer():
             return widget
     return False
 
-def find_framerange(qtObject):
+def find_framerange(qtObject): #thanks Erwan Leroy =)
     for c in qtObject.children():
         found = find_framerange(c)
         if found:
