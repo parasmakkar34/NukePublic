@@ -3,7 +3,6 @@ from Qt import QtGui
 from Qt import QtCore
 from Qt.QtGui import *
 from Qt.QtCore import *
-from PySide2 import QtWidgets
 import nuke
 
 
