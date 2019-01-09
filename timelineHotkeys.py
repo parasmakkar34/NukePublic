@@ -3,7 +3,6 @@ from Qt import QtGui
 from Qt import QtCore
 from Qt.QtGui import *
 from Qt.QtCore import *
-from PySide2 import QtWidgets
 import nuke
 
 
@@ -187,7 +186,7 @@ class TimeHotkeys(QDialog):
 
 def find_viewer():
 
-    for widget in QtWidgets.QApplication.allWidgets():
+    for widget in QtGui.QApplication.allWidgets():
         if widget.windowTitle() == nuke.activeViewer().node().name():
             return widget
     return False
@@ -220,4 +219,3 @@ def find_cam_dropdown(qtObject):
 QVLine()
 v = find_viewer()
 cam_menu = find_cam_dropdown(v)
-
